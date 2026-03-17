@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shipping
+  namespace: dotmart
+data:
+  CART_ENDPOINT: "cart:8080"
+  DB_HOST: "mysql"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping
+  namespace: dotmart
+  # these are replica set labels 
+  labels: 
+    project: dotmart
+    component: shipping
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+  # these labels are used to select pods
+    matchLabels:
+      project: dotmart
+      component: shipping
+      tier: backend
+  # pod defination 
+  template:
+    metadata:
+      labels:
+        project: dotmart
+        component: shipping
+        tier: backend
+    spec:
+      containers:
+      - name: shipping
+        image: karunakar2000/shipping:v3
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: shipping
+        ports:
+        - name: liveness-port
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: liveness-port
+          failureThreshold: 1
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: liveness-port
+          failureThreshold: 1
+          periodSeconds: 15
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping
+spec:
+  selector:
+    project: dotmart
+    component: shipping
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 8080 # service port
+      targetPort: 8080 # container port 
