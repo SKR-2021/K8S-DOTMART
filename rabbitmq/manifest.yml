@@ -29,7 +29,7 @@ spec:
         image: rabbitmq:3
         env:
         - name: RABBITMQ_DEFAULT_USER
-          value: roboshop
+          value: dotmart
         - name: RABBITMQ_DEFAULT_PASS
           value: roboshop123
         imagePullPolicy: Always
