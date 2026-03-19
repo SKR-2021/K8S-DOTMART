@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mysql
-  namespace: dotmart
+  namespace: roboshop
 data:
    my.cnf: |
     [mysqld]
@@ -12,10 +12,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
-  namespace: dotmart
+  namespace: roboshop
   # these are replica set labels 
   labels: 
-    project: dotmart
+    project: roboshop
     component: mysql
     tier: db
 spec:
@@ -23,14 +23,14 @@ spec:
   selector:
   # these labels are used to select pods
     matchLabels:
-      project: dotmart
+      project: roboshop
       component: mysql
       tier: db
   # pod defination 
   template:
     metadata:
       labels:
-        project: dotmart
+        project: roboshop
         component: mysql
         tier: db
     spec:
@@ -66,7 +66,7 @@ metadata:
   name: mysql
 spec:
   selector:
-    project: dotmart
+    project: roboshop
     component: mysql
     tier: db
   ports:

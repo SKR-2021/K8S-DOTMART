@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb
-  namespace: dotmart
+  namespace: roboshop
   # these are replica set labels 
   labels: 
-    project: dotmart
+    project: roboshop
     component: mongodb
     tier: db
 spec:
@@ -13,14 +13,14 @@ spec:
   selector:
   # these labels are used to select pods
     matchLabels:
-      project: dotmart
+      project: roboshop
       component: mongodb
       tier: db
   # pod defination 
   template:
     metadata:
       labels:
-        project: dotmart
+        project: roboshop
         component: mongodb
         tier: db
     spec:
@@ -46,7 +46,7 @@ metadata:
   name: mongodb
 spec:
   selector:
-    project: dotmart
+    project: roboshop
     component: mongodb
     tier: db
   ports:
